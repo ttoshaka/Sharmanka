@@ -1,13 +1,16 @@
 package core.command
 
 import core.music.BotAudioPlayer
+import core.utils.EmbedFactory
+import core.utils.EmbedFactoryImpl
 import music.TrackOrder
 import network.AiNetwork
 import network.TtsNetwork
 
 class CommandFabric(
     private val botAudioPlayer: BotAudioPlayer,
-    private val aiNetwork: AiNetwork
+    private val aiNetwork: AiNetwork,
+    private val embedFactory: EmbedFactory = EmbedFactoryImpl(),
 ) {
     private val ttsNetwork = TtsNetwork()
 
@@ -32,15 +35,15 @@ class CommandFabric(
             )
 
             Commands.SKIP -> SkipTrackCommand(botAudioPlayer)
-            Commands.QUEUE -> QueueCommand(botAudioPlayer)
+            Commands.QUEUE -> QueueCommand(botAudioPlayer, embedFactory)
             Commands.RESUME -> ResumePlayerCommand(botAudioPlayer)
             Commands.PAUSE -> PausePlayerCommand(botAudioPlayer)
             Commands.SHUFFLE -> ShuffleCommand(botAudioPlayer)
             Commands.LENGTH -> LengthCommand(botAudioPlayer)
             Commands.CLEAR -> ClearQueueCommand(botAudioPlayer)
             Commands.CHAT -> AiChatCommand(aiNetwork, ttsNetwork, botAudioPlayer)
-            Commands.HELP -> HelpCommand()
-            Commands.NOW_PLAYING -> NowPlayingCommand(botAudioPlayer)
+            Commands.HELP -> HelpCommand(embedFactory)
+            Commands.NOW_PLAYING -> NowPlayingCommand(botAudioPlayer, embedFactory)
             Commands.BACKGROUND -> BackgroundCommand(botAudioPlayer)
             Commands.SUGGEST_MUSIC -> SuggestMusicCommand(aiNetwork, botAudioPlayer)
             Commands.SUGGEST_PLAYLIST -> SuggestPlaylistCommand(aiNetwork, botAudioPlayer)
