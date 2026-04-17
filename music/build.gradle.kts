@@ -21,6 +21,14 @@ repositories {
 dependencies {
     implementation("com.github.devoxin.lavaplayer:lavaplayer:1.10.0")
     implementation(kotlin("stdlib-jdk8"))
+
+    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("io.mockk:mockk:1.13.10")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 kotlin {

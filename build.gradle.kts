@@ -53,6 +53,14 @@ dependencies {
 // Нативные библиотеки под вашу ОС и архитектуру (выберите одну)
 // Для Windows x64:
     runtimeOnly("moe.kyokobot.libdave:natives-win-x86-64:0.1.3")
+
+    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("io.mockk:mockk:1.13.10")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 kotlin {
