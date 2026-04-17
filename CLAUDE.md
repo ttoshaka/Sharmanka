@@ -178,5 +178,6 @@ class ClearQueueCommand(
 ## Agent Selection Rules
 
 - If task is about creating commands → use skill `new-command` (it collects info from user, then delegates to developer-command agent)
+- If task involves writing tests, improving test coverage, refactoring code to make it testable, or following up on test coverage recommendations → use skill `test-coverage`
 
 Always select the most specific agent before performing a task.
