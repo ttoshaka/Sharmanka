@@ -21,6 +21,7 @@ import network.NetworkException
 import network.YoutubeNetwork
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -29,7 +30,7 @@ class BotAudioPlayer(
     private val porcupineKey: String,
 ) {
 
-    private val musicManagers = hashMapOf<String, GuildMusicManager>()
+    private val musicManagers = ConcurrentHashMap<Long, GuildMusicManager>()
     private val sourceManager = YoutubeAudioSourceManager()
     private val playerManager = DefaultAudioPlayerManager().apply {
         configuration.outputFormat = StandardAudioDataFormats.DISCORD_PCM_S16_BE
@@ -134,14 +135,10 @@ class BotAudioPlayer(
             loadTrackByKeyword(text, parameters)
         }
 
-    private fun getMusicManager(guild: Guild): GuildMusicManager {
-        var musicManager = musicManagers[guild.id]
-        if (musicManager == null) {
-            musicManager = GuildMusicManager(playerManager, backgroundPlayerManager)
-            musicManagers[guild.id] = musicManager
+    private fun getMusicManager(guild: Guild): GuildMusicManager =
+        musicManagers.computeIfAbsent(guild.idLong) {
+            GuildMusicManager(playerManager, backgroundPlayerManager)
         }
-        return musicManager
-    }
 
 
     private suspend fun loadTrackByKeyword(
