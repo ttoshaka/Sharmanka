@@ -11,13 +11,20 @@ class AudioPlayerSendHandler(
     private val backgroundPlayer: AudioPlayer
 ) : AudioSendHandler {
 
+    private val mainFrameBuffer = ByteBuffer.allocate(FRAME_SIZE)
+    private val backgroundFrameBuffer = ByteBuffer.allocate(FRAME_SIZE)
+    private val outputBuffer = ByteBuffer.allocate(FRAME_SIZE)
+    private val silenceBuffer: ByteBuffer = ByteBuffer.allocate(FRAME_SIZE).also { buf ->
+        repeat(FRAME_SIZE) { buf.put(0) }
+        buf.flip()
+    }
+
     private val mainFrame = MutableAudioFrame().apply {
-        setBuffer(ByteBuffer.allocate(FRAME_SIZE))
+        setBuffer(mainFrameBuffer)
     }
     private val backgroundFrame = MutableAudioFrame().apply {
-        setBuffer(ByteBuffer.allocate(FRAME_SIZE))
+        setBuffer(backgroundFrameBuffer)
     }
-    private val outputBuffer = ByteBuffer.allocate(FRAME_SIZE)
 
     override fun canProvide(): Boolean {
         val hasMain = mainPlayer.provide(mainFrame)
@@ -65,14 +72,12 @@ class AudioPlayerSendHandler(
     }
 
     private fun fillSilence() {
-        repeat(FRAME_SIZE) {
-            outputBuffer.put(0)
-        }
+        outputBuffer.put(silenceBuffer.duplicate())
     }
 
     private fun clearFrames() {
-        mainFrame.setBuffer(ByteBuffer.allocate(FRAME_SIZE))
-        backgroundFrame.setBuffer(ByteBuffer.allocate(FRAME_SIZE))
+        mainFrame.setBuffer(mainFrameBuffer.clear() as ByteBuffer)
+        backgroundFrame.setBuffer(backgroundFrameBuffer.clear() as ByteBuffer)
     }
 
     override fun isOpus(): Boolean = false
