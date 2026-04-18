@@ -18,4 +18,5 @@
 - **#12** Дублирующиеся блоки `when (result: AudioScheduleResult)` вынесены в `AudioScheduleResultHandler.kt`. Созданы extension-функции `toText()` и `toStatusLine()`, используемые в `SuggestMusicCommand` и `SuggestPlaylistCommand`.
 - **#13** Все пользовательские ответы команд приведены к русскому языку.
 - **#15** Упрощён `DateUtils.formatDuration()`: избыточный `StringBuilder` заменён прямым `return if/else`.
-- **#16** `TtsNetwork` вынесен в DI: создаётся в `Main.kt` и передаётся через конструктор `CommandFabric` наравне с остальными зависимостями. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.
+- **#16** `TtsNetwork` вынесен в DI: создаётся в `Main.kt` и передаётся через конструктор `CommandFabric` наравне с остальными зависимостями.
+- **#17** Путь `"recorded.wav"` вынесен в `Constants.RECORDED_AUDIO_FILE`. `BotAudioPlayer` и `PorcupineReceiveHandler` используют одну константу. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.

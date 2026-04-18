@@ -41,7 +41,7 @@ class BotAudioPlayer(
         configuration.outputFormat = StandardAudioDataFormats.DISCORD_PCM_S16_BE
         registerSourceManager(LocalAudioSourceManager(MediaContainerRegistry.DEFAULT_REGISTRY))
     }
-    private val backgroundTrackPath = File("recorded.wav").absolutePath
+    private val backgroundTrackPath = File(core.utils.Constants.RECORDED_AUDIO_FILE).absolutePath
 
     companion object {
         private val logger = LoggerFactory.getLogger(BotAudioPlayer::class.java)

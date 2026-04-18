@@ -143,8 +143,8 @@ class PorcupineReceiveHandler(
                 // Если долго нет аудио (тишина), останавливаем запись
                 if (now - lastAudioTime > maxSilenceMillis) {
                     logger.info("Recording stopped due to silence. Saving to file...")
-                    saveRecordingToWav(recordedBuffer.toShortArray(), "recorded.wav")
-                    logger.info("File saved: recorded.wav")
+                    saveRecordingToWav(recordedBuffer.toShortArray(), core.utils.Constants.RECORDED_AUDIO_FILE)
+                    logger.info("File saved: ${core.utils.Constants.RECORDED_AUDIO_FILE}")
                     isRecording = false
                 }
             }
