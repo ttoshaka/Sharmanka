@@ -3,7 +3,7 @@ package network.models.youtube
 data class FindByKeywordResponse(
     val kind: String,
     val etag: String,
-    val nextPageToken: String,
+    val nextPageToken: String?,
     val regionCode: String,
     val pageInfo: PageInfo,
     val items: List<Video>,
