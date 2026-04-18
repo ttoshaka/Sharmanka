@@ -88,7 +88,7 @@ class PorcupineReceiveHandler(
         return result
     }
     /**
-     * Конвертирует стерео PCM 48 кГц в моно PCM 16 кГц через ресемплирование Java Audio API (TarsosDSP).
+     * Конвертирует стерео PCM 48 кГц в моно PCM 16 кГц через ресемплирование Java Audio API.
      *
      * В отличие от [downsampleStereo48kToMono16k], использует правильный ресемплер, что даёт
      * корректное качество звука для Porcupine.

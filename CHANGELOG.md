@@ -44,4 +44,5 @@
 ### Зависимости и сборка
 - **#28** Из `gradle.properties` удалены неиспользуемые и устаревшие версии зависимостей.
 - **#29** `kotlinx-coroutines-core` в `:network` обновлён с `1.8.0-RC` до стабильной `1.8.1`.
-- **#30** Удалена неиспользуемая зависимость `jackson-module-kotlin` из `:network` — весь слой использует Gson. Оставлена только настройка `kotlin.code.style`.
+- **#30** Удалена неиспользуемая зависимость `jackson-module-kotlin` из `:network` — весь слой использует Gson.
+- **#31** Удалены неиспользуемые зависимости `be.tarsos.dsp:core` и `be.tarsos.dsp:jvm` и их Maven-репозиторий. Ресемплинг работает через `javax.sound.sampled.AudioSystem`. Оставлена только настройка `kotlin.code.style`.

@@ -17,10 +17,6 @@ repositories {
     maven {
         url = URI("https://jitpack.io")
     }
-    maven {
-        name = "TarsosDSP repository"
-        url = URI("https://mvn.0110.be/releases")
-    }
     maven(url = "https://maven.lavalink.dev/releases")
 }
 
@@ -41,9 +37,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC")
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("dev.lavalink.youtube:common:1.18.0")
-
-    implementation("be.tarsos.dsp:core:2.5")
-    implementation("be.tarsos.dsp:jvm:2.5")
 
     implementation("ai.picovoice:porcupine-java:4.0.0")
 
