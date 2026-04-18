@@ -42,4 +42,5 @@
 - **#27** В `SuggestPlaylistCommand.extractSongsFromResponse()` фильтр `contains("-")` заменён на regex `^\d+[.\-)\s]+(.+)$`.
 
 ### Зависимости и сборка
-- **#28** Из `gradle.properties` удалены неиспользуемые и устаревшие версии зависимостей. Оставлена только настройка `kotlin.code.style`.
+- **#28** Из `gradle.properties` удалены неиспользуемые и устаревшие версии зависимостей.
+- **#29** `kotlinx-coroutines-core` в `:network` обновлён с `1.8.0-RC` до стабильной `1.8.1`. Оставлена только настройка `kotlin.code.style`.
