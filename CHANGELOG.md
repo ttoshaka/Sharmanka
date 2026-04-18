@@ -19,4 +19,5 @@
 - **#13** Все пользовательские ответы команд приведены к русскому языку.
 - **#15** Упрощён `DateUtils.formatDuration()`: избыточный `StringBuilder` заменён прямым `return if/else`.
 - **#16** `TtsNetwork` вынесен в DI: создаётся в `Main.kt` и передаётся через конструктор `CommandFabric` наравне с остальными зависимостями.
-- **#17** Путь `"recorded.wav"` вынесен в `Constants.RECORDED_AUDIO_FILE`. `BotAudioPlayer` и `PorcupineReceiveHandler` используют одну константу. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.
+- **#17** Путь `"recorded.wav"` вынесен в `Constants.RECORDED_AUDIO_FILE`.
+- **#18** Исправлена опечатка пакета `core.core.music` → `core.music` в `PorcupineReceiveHandler`, `PorcupineFeeder`, `Downsampler48kTo16k`. Обновлены все импорты. `BotAudioPlayer` и `PorcupineReceiveHandler` используют одну константу. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.

@@ -1,4 +1,4 @@
-package core.core.music
+package core.music
 
 import ai.picovoice.porcupine.Porcupine
 

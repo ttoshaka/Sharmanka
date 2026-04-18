@@ -9,7 +9,7 @@ import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceMan
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import core.AudioScheduleResult
-import core.core.music.PorcupineReceiveHandler
+import core.music.PorcupineReceiveHandler
 import core.models.MusicForPlayingParameters
 import core.utils.UrlValidator
 import dev.lavalink.youtube.YoutubeAudioSourceManager
