@@ -21,14 +21,7 @@ object DateUtils {
         val minutes = unit.toMinutes(time) % 60
         val hours = unit.toHours(time)
         val formattedMinutesSeconds = String.format(Locale.ENGLISH, "%1$02d:%2$02d", minutes, seconds)
-        return StringBuilder()
-            .append(
-                if (hours != 0L) {
-                    String.format(Locale.ENGLISH, "%d:%s", hours, formattedMinutesSeconds)
-                } else {
-                    formattedMinutesSeconds
-                }
-            )
-            .toString()
+        return if (hours != 0L) String.format(Locale.ENGLISH, "%d:%s", hours, formattedMinutesSeconds)
+        else formattedMinutesSeconds
     }
 }
