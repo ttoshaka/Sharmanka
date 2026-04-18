@@ -6,7 +6,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import net.dv8tion.jda.api.audio.AudioReceiveHandler
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 
 class CommandExecutor(private val commandFabric: CommandFabric) {
@@ -14,13 +13,19 @@ class CommandExecutor(private val commandFabric: CommandFabric) {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     operator fun invoke(interaction: SlashCommandInteractionEvent) {
+        val guild = interaction.guild
+        if (guild == null) {
+            interaction.reply("Commands are only available in a server.").complete()
+            return
+        }
+
         val optionsMap = mutableMapOf<String, String>()
         interaction.options.forEach { optionMapping ->
             optionsMap[optionMapping.name] = optionMapping.asString
         }
 
         val event = Event(
-            guild = interaction.guild!!,
+            guild = guild,
             name = interaction.name,
             member = Member(
                 voiceChannel = interaction.member?.voiceState?.channel,
