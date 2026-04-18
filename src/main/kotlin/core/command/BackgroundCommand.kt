@@ -15,9 +15,9 @@ class BackgroundCommand(
         val started = botAudioPlayer.toggleBackgroundTrack(event.guild, loop)
 
         val text = if (started) {
-            if (loop) "Background track started (looping)." else "Background track started."
+            if (loop) "Фоновый трек запущен (с повтором)." else "Фоновый трек запущен."
         } else {
-            "Background track stopped."
+            "Фоновый трек остановлен."
         }
 
         return Reply.Text(text)

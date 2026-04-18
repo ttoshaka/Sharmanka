@@ -9,6 +9,6 @@ class ShuffleCommand(
 ) : Command() {
     override suspend fun invoke(event: Event): Reply {
         botAudioPlayer.shuffle(event.guild)
-        return Reply.Text("Shuffled")
+        return Reply.Text("Очередь перемешана.")
     }
 }

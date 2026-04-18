@@ -26,7 +26,7 @@ class NowPlayingCommand(
                 )
             )
         } else {
-            Reply.Text("No track is currently playing.")
+            Reply.Text("Сейчас ничего не играет.")
         }
     }
 }

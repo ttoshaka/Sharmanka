@@ -16,3 +16,4 @@
 - **#10** В `AudioPlayerSendHandler` буферы вынесены в поля класса и переиспользуются через `clear()`. Устранено выделение `ByteBuffer` 50 раз/сек на гильдию.
 - **#11** Устранено дублирование `formatDuration`: метод перемещён в `music.DateUtils` (модуль `:music`), `TrackScheduler` использует общую утилиту. Старый `core.utils.DateUtils` удалён.
 - **#12** Дублирующиеся блоки `when (result: AudioScheduleResult)` вынесены в `AudioScheduleResultHandler.kt`. Созданы extension-функции `toText()` и `toStatusLine()`, используемые в `SuggestMusicCommand` и `SuggestPlaylistCommand`.
+- **#13** Все пользовательские ответы команд приведены к русскому языку. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.

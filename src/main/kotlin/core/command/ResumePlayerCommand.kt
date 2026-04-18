@@ -9,6 +9,6 @@ class ResumePlayerCommand(
 ) : Command() {
     override suspend fun invoke(event: Event): Reply {
         botAudioPlayer.resumePlayer(event.guild)
-        return Reply.Text("Resumed")
+        return Reply.Text("Воспроизведение возобновлено.")
     }
 }

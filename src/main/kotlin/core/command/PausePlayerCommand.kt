@@ -9,6 +9,6 @@ class PausePlayerCommand(
 ) : Command() {
     override suspend fun invoke(event: Event): Reply {
         botAudioPlayer.pausePlayer(event.guild)
-        return Reply.Text("Paused")
+        return Reply.Text("Воспроизведение приостановлено.")
     }
 }

@@ -9,6 +9,6 @@ class ClearQueueCommand(
 ): Command(false) {
     override suspend fun invoke(event: Event): Reply {
         botAudioPlayer.clearQueue(event.guild)
-        return Reply.Text("Cleared")
+        return Reply.Text("Очередь очищена.")
     }
 }

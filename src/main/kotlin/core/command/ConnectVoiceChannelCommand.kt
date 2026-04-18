@@ -10,9 +10,9 @@ class ConnectVoiceChannelCommand(
 
     override suspend fun invoke(event: Event): Reply {
         val voiceChannel = event.member.voiceChannel
-            ?: return Reply.Text("You must be in a voice channel to use this command")
+            ?: return Reply.Text("Вы должны находиться в голосовом канале.")
 
         botAudioPlayer.connectToVoiceChannel(voiceChannel, event.guild)
-        return Reply.Text("Connected")
+        return Reply.Text("Подключён.")
     }
 }

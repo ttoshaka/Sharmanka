@@ -21,7 +21,7 @@ class AiChatCommand(
 ) : Command(true) {
 
     override suspend fun invoke(event: Event): Reply {
-        val message = event.options["message"] ?: return Reply.Text("Empty message.")
+        val message = event.options["message"] ?: return Reply.Text("Сообщение не может быть пустым.")
 
         val answer = try {
             aiNetwork.chat(message)

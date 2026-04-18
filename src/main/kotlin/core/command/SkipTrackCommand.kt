@@ -10,6 +10,6 @@ class SkipTrackCommand(
 
     override suspend fun invoke(event: Event): Reply {
         botAudioPlayer.skipTrack(event.guild)
-        return Reply.Text("Skipped")
+        return Reply.Text("Трек пропущен.")
     }
 }
