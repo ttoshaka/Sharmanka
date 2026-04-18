@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
 import network.AiNetwork
+import network.TtsNetwork
 import network.YoutubeNetwork
 
 
@@ -36,8 +37,13 @@ fun main(args: Array<String>) {
 
     val youtubeNetwork = YoutubeNetwork(youtubeKey)
     val aiNetwork = AiNetwork(deepseekKey)
+    val ttsNetwork = TtsNetwork()
     val botAudioPlayer = BotAudioPlayer(youtubeNetwork, porcupineKey)
-    val commandFabric = CommandFabric(botAudioPlayer, aiNetwork)
+    val commandFabric = CommandFabric(
+        botAudioPlayer = botAudioPlayer,
+        aiNetwork = aiNetwork,
+        ttsNetwork = ttsNetwork,
+    )
     val commandExecutor = CommandExecutor(commandFabric)
     JDABuilder.createDefault(discordToken)
         .addEventListeners(EventsHandler { event -> commandExecutor(event) })

@@ -17,4 +17,5 @@
 - **#11** Устранено дублирование `formatDuration`: метод перемещён в `music.DateUtils` (модуль `:music`), `TrackScheduler` использует общую утилиту. Старый `core.utils.DateUtils` удалён.
 - **#12** Дублирующиеся блоки `when (result: AudioScheduleResult)` вынесены в `AudioScheduleResultHandler.kt`. Созданы extension-функции `toText()` и `toStatusLine()`, используемые в `SuggestMusicCommand` и `SuggestPlaylistCommand`.
 - **#13** Все пользовательские ответы команд приведены к русскому языку.
-- **#15** Упрощён `DateUtils.formatDuration()`: избыточный `StringBuilder` заменён прямым `return if/else`. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.
+- **#15** Упрощён `DateUtils.formatDuration()`: избыточный `StringBuilder` заменён прямым `return if/else`.
+- **#16** `TtsNetwork` вынесен в DI: создаётся в `Main.kt` и передаётся через конструктор `CommandFabric` наравне с остальными зависимостями. Переведены: `BackgroundCommand`, `ClearQueueCommand`, `ConnectVoiceChannelCommand`, `PausePlayerCommand`, `ResumePlayerCommand`, `ShuffleCommand`, `SkipTrackCommand`, `NowPlayingCommand`, `AiChatCommand`, `PlayMusicCommand`.

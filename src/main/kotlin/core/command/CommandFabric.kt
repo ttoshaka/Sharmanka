@@ -10,9 +10,9 @@ import network.TtsNetwork
 class CommandFabric(
     private val botAudioPlayer: BotAudioPlayer,
     private val aiNetwork: AiNetwork,
+    private val ttsNetwork: TtsNetwork,
     private val embedFactory: EmbedFactory = EmbedFactoryImpl(),
 ) {
-    private val ttsNetwork = TtsNetwork()
 
     fun createCommand(commandName: Commands?): Command =
         when (commandName) {
