@@ -32,3 +32,5 @@ class ClearQueueCommand(
     }
 }
 ```
+
+Для загрузки трэка используй BotAudioPlayer. Запрещено в коде команды напрямую обращаться в YoutubeNetwork.
