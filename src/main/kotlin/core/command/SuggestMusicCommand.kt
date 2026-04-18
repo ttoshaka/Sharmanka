@@ -1,6 +1,5 @@
 package core.command
 
-import core.AudioScheduleResult
 import core.models.Event
 import core.models.MusicForPlayingParameters
 import core.models.Reply
@@ -41,19 +40,7 @@ class SuggestMusicCommand(
         )
 
         // Формируем итоговый ответ
-        val resultText = when (result) {
-            is AudioScheduleResult.Error -> when (val ex = result.exception) {
-                is NetworkException -> "Ошибка при поиске на YouTube: ${ex.message}"
-                else -> "Ошибка при загрузке: $ex."
-            }
-            AudioScheduleResult.NoMatches -> "Песня не найдена."
-            is AudioScheduleResult.PlaylistAdded -> "$suggestionMessage\nПлейлист ${result.playlistName} загружен."
-            is AudioScheduleResult.PlaylistPlaying -> "$suggestionMessage\nПлейлист ${result.playlistName} загружен. Играет - ${result.trackName}."
-            is AudioScheduleResult.TrackAdded -> "$suggestionMessage\nТрек ${result.trackName} добавлен в очередь."
-            is AudioScheduleResult.TrackPlaying -> "$suggestionMessage\nТрек ${result.trackName} начал играть."
-            is AudioScheduleResult.EmptyPlaylist -> "$suggestionMessage\nПлейлист ${result.playlistName} пуст."
-            is AudioScheduleResult.TrackNotFound -> "$suggestionMessage\nНо ничего не найдено для \"${result.keyword}\""
-        }
+        val resultText = result.toText(suggestionPrefix = "$suggestionMessage\n")
 
         return Reply.Text(resultText)
     }

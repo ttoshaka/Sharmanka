@@ -60,42 +60,12 @@ class SuggestPlaylistCommand(
                 )
             )
 
-            when (result) {
-                is AudioScheduleResult.TrackAdded -> {
-                    results.add("✓ ${result.trackName}")
-                    successCount++
-                }
-                is AudioScheduleResult.TrackPlaying -> {
-                    results.add("▶ ${result.trackName}")
-                    successCount++
-                }
-                is AudioScheduleResult.PlaylistAdded -> {
-                    results.add("✓ Плейлист ${result.playlistName}")
-                    successCount++
-                }
-                is AudioScheduleResult.PlaylistPlaying -> {
-                    results.add("▶ Плейлист ${result.playlistName}")
-                    successCount++
-                }
-                is AudioScheduleResult.NoMatches,
-                is AudioScheduleResult.TrackNotFound -> {
-                    results.add("✗ $song - не найдено")
-                    failCount++
-                }
-                is AudioScheduleResult.Error -> {
-                    val errorMsg = if (result.exception is NetworkException) {
-                        "ошибка YouTube: ${result.exception.message}"
-                    } else {
-                        "ошибка"
-                    }
-                    results.add("✗ $song - $errorMsg")
-                    failCount++
-                }
-                is AudioScheduleResult.EmptyPlaylist -> {
-                    results.add("✗ $song - пустой плейлист")
-                    failCount++
-                }
-            }
+            val isSuccess = result is AudioScheduleResult.TrackAdded
+                || result is AudioScheduleResult.TrackPlaying
+                || result is AudioScheduleResult.PlaylistAdded
+                || result is AudioScheduleResult.PlaylistPlaying
+            results.add(result.toStatusLine(songName = song))
+            if (isSuccess) successCount++ else failCount++
         }
 
         // Формируем итоговый ответ
