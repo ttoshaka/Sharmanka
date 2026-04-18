@@ -1,10 +1,20 @@
-package core.utils
+package music
 
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
+/**
+ * Утилита для форматирования временных интервалов в читаемый вид
+ */
 object DateUtils {
 
+    /**
+     * Форматирует длительность в строку вида `HH:MM:SS` или `MM:SS`
+     *
+     * @param unit единица измерения входного значения
+     * @param value длительность в указанных единицах (отрицательные значения обрабатываются по модулю)
+     * @return отформатированная строка длительности
+     */
     fun formatDuration(unit: TimeUnit, value: Long): String {
         val time = if (value > 0) value else -value
         val seconds = unit.toSeconds(time) % 60

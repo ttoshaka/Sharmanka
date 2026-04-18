@@ -14,3 +14,4 @@
 - **#8** В `BotAudioPlayer` заменён `HashMap` на `ConcurrentHashMap` с `computeIfAbsent`. Ключ сменён с `String` на `Long` (`guild.idLong`). Атомарное создание `GuildMusicManager` исключает гонку потоков.
 - **#9** В `PorcupineReceiveHandler` добавлена синхронизация `synchronized(this)` вокруг составных операций с `monoBuffer`. Устранена гонка данных при одновременном аудио от нескольких пользователей.
 - **#10** В `AudioPlayerSendHandler` буферы вынесены в поля класса и переиспользуются через `clear()`. Устранено выделение `ByteBuffer` 50 раз/сек на гильдию.
+- **#11** Устранено дублирование `formatDuration`: метод перемещён в `music.DateUtils` (модуль `:music`), `TrackScheduler` использует общую утилиту. Старый `core.utils.DateUtils` удалён.

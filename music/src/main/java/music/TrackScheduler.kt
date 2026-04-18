@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class TrackScheduler(private val player: AudioPlayer) : AudioEventAdapter() {
@@ -52,24 +51,7 @@ class TrackScheduler(private val player: AudioPlayer) : AudioEventAdapter() {
         getQueue().forEach { track ->
             total += track.duration
         }
-        return formatDuration(TimeUnit.MILLISECONDS, total)
-    }
-
-    fun formatDuration(unit: TimeUnit, value: Long): String {
-        val time = if (value > 0) value else -value
-        val seconds = unit.toSeconds(time) % 60
-        val minutes = unit.toMinutes(time) % 60
-        val hours = unit.toHours(time)
-        val formattedMinutesSeconds = String.format(Locale.ENGLISH, "%1$02d:%2$02d", minutes, seconds)
-        return StringBuilder()
-            .append(
-                if (hours != 0L) {
-                    String.format(Locale.ENGLISH, "%d:%s", hours, formattedMinutesSeconds)
-                } else {
-                    formattedMinutesSeconds
-                }
-            )
-            .toString()
+        return DateUtils.formatDuration(TimeUnit.MILLISECONDS, total)
     }
 
     fun clear() {
