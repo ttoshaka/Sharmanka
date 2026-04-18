@@ -179,5 +179,6 @@ class ClearQueueCommand(
 
 - If task is about creating commands → use skill `new-command` (it collects info from user, then delegates to developer-command agent)
 - If task involves writing tests, improving test coverage, refactoring code to make it testable, or following up on test coverage recommendations → use skill `test-coverage`
+- If task is about new features NOT related to slash-commands (network integrations, audio/player behavior, Discord event handlers, infrastructure, utilities) → use skill `feature-dev` (it collects info from user, then delegates to feature-developer agent)
 
 Always select the most specific agent before performing a task.
