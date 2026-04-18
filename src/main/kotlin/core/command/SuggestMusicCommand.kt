@@ -7,6 +7,7 @@ import core.models.Reply
 import core.music.BotAudioPlayer
 import music.TrackOrder
 import network.AiNetwork
+import network.NetworkException
 
 class SuggestMusicCommand(
     private val aiNetwork: AiNetwork,
@@ -18,7 +19,11 @@ class SuggestMusicCommand(
 
         // Отправляем запрос в Deepseek с промптом для подбора песни
         val prompt = buildPrompt(userRequest)
-        val aiResponse = aiNetwork.chat(prompt)
+        val aiResponse = try {
+            aiNetwork.chat(prompt)
+        } catch (e: NetworkException) {
+            return Reply.Text("Ошибка при обращении к AI: ${e.message}")
+        }
 
         // Извлекаем название песни из ответа (AI должен ответить только названием)
         val songQuery = extractSongFromResponse(aiResponse)
