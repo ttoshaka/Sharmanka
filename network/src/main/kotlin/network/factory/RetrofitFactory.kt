@@ -59,7 +59,7 @@ object RetrofitFactory {
             }
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(WRITE_TIMEOUT, TimeUnit.MINUTES)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             .build()
     }
 
