@@ -37,7 +37,6 @@ class PorcupineReceiveHandler(
 
     private val monoBuffer = mutableListOf<Short>()
     private val frameSize = porcupine.frameLength
-    private val overlap = frameSize / 2
 
     private var isRecording = false
     private val recordedBuffer = mutableListOf<Short>()
@@ -149,7 +148,7 @@ class PorcupineReceiveHandler(
                 }
             }
 
-            monoBuffer.subList(0, overlap).clear()
+            monoBuffer.subList(0, frameSize).clear()
         }
     }
 
