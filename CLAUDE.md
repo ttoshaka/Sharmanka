@@ -179,5 +179,9 @@ class ClearQueueCommand(
 
 - If task is about creating commands → use skill `new-command` (it collects info from user, then delegates to developer-command agent)
 - If task involves writing tests, improving test coverage, refactoring code to make it testable, or following up on test coverage recommendations → use skill `test-coverage`
+- ALWAYS use skill `bug-fix` for ANY bug fix task — no exceptions, even for trivial fixes.
+  Triggers: "исправь баг", "fix bug", "fix issue", "починить", "не работает", "ошибка", "crashes", "NPE", "exception", "исправь #N", "fix #N"
+- ALWAYS use skill `research` for ANY question about the project — no exceptions, even for simple lookups.
+  Triggers: "what commands/classes/modules exist", "how does X work", "where is X", "what does X do", "why is X done this way", "show me X in the code", "какие X есть", "как работает X", "где находится X"
 
 Always select the most specific agent before performing a task.
