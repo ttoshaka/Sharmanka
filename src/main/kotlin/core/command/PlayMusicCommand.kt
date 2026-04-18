@@ -6,7 +6,14 @@ import core.models.MusicForPlayingParameters
 import core.models.Reply
 import core.music.BotAudioPlayer
 import music.TrackOrder
+import network.NetworkException
 
+/**
+ * Команда воспроизведения музыки из URL или по ключевому слову.
+ *
+ * @property botAudioPlayer плеер для воспроизведения аудио в Discord
+ * @property order порядок добавления трека в очередь
+ */
 class PlayMusicCommand(
     private val botAudioPlayer: BotAudioPlayer,
     private val order: TrackOrder,
@@ -22,7 +29,10 @@ class PlayMusicCommand(
             )
         )
         val text = when (result) {
-            is AudioScheduleResult.Error -> "Error ${result.exception}."
+            is AudioScheduleResult.Error -> when (val ex = result.exception) {
+                is NetworkException -> "Ошибка при поиске на YouTube: ${ex.message}"
+                else -> "Error ${ex}."
+            }
             AudioScheduleResult.NoMatches -> "No matches."
             is AudioScheduleResult.PlaylistAdded -> "Playlist ${result.playlistName} loaded."
             is AudioScheduleResult.PlaylistPlaying -> "Playlist ${result.playlistName} loaded. Now playing - ${result.trackName}."

@@ -17,6 +17,7 @@ import music.AudioItem
 import music.TrackOrder
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel
+import network.NetworkException
 import network.YoutubeNetwork
 import java.io.File
 import kotlin.coroutines.resume
@@ -140,9 +141,13 @@ class BotAudioPlayer(
 
     private suspend fun loadTrackByKeyword(
         keyword: String,
-        parameters: MusicForPlayingParameters
+        parameters: MusicForPlayingParameters,
     ): AudioScheduleResult {
-        val url = youtubeNetwork.findVideo(keyword) ?: return AudioScheduleResult.TrackNotFound(keyword)
+        val url = try {
+            youtubeNetwork.findVideo(keyword)
+        } catch (e: NetworkException) {
+            return AudioScheduleResult.Error(e)
+        } ?: return AudioScheduleResult.TrackNotFound(keyword)
         return loadTrackByUrl(url = url, parameters = parameters)
     }
 

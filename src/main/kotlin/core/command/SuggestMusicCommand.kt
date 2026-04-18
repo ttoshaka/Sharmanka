@@ -42,7 +42,10 @@ class SuggestMusicCommand(
 
         // Формируем итоговый ответ
         val resultText = when (result) {
-            is AudioScheduleResult.Error -> "Ошибка при загрузке: ${result.exception}."
+            is AudioScheduleResult.Error -> when (val ex = result.exception) {
+                is NetworkException -> "Ошибка при поиске на YouTube: ${ex.message}"
+                else -> "Ошибка при загрузке: $ex."
+            }
             AudioScheduleResult.NoMatches -> "Песня не найдена."
             is AudioScheduleResult.PlaylistAdded -> "$suggestionMessage\nПлейлист ${result.playlistName} загружен."
             is AudioScheduleResult.PlaylistPlaying -> "$suggestionMessage\nПлейлист ${result.playlistName} загружен. Играет - ${result.trackName}."

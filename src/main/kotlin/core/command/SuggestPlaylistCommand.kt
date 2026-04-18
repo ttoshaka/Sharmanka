@@ -83,7 +83,12 @@ class SuggestPlaylistCommand(
                     failCount++
                 }
                 is AudioScheduleResult.Error -> {
-                    results.add("✗ $song - ошибка")
+                    val errorMsg = if (result.exception is NetworkException) {
+                        "ошибка YouTube: ${result.exception.message}"
+                    } else {
+                        "ошибка"
+                    }
+                    results.add("✗ $song - $errorMsg")
                     failCount++
                 }
                 is AudioScheduleResult.EmptyPlaylist -> {
