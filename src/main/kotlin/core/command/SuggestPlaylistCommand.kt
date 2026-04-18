@@ -107,12 +107,14 @@ class SuggestPlaylistCommand(
     }
 
     private fun extractSongsFromResponse(response: String, count: Int): List<String> {
-        // Разбиваем ответ на строки и фильтруем пустые
+        val numberedLine = Regex("""^\d+[.\-)\s]+(.+)$""")
         return response.trim()
             .lines()
             .map { it.trim() }
             .filter { it.isNotBlank() }
-            .filter { it.contains("-") } // Оставляем только строки с форматом "Исполнитель - Название"
-            .take(count) // Берём указанное количество песен
+            .mapNotNull { line ->
+                numberedLine.find(line)?.groupValues?.get(1)?.trim()?.takeIf { it.isNotBlank() }
+            }
+            .take(count)
     }
 }
