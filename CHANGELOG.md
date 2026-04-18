@@ -10,3 +10,4 @@
 - **#5** Добавлен `CoroutineExceptionHandler` в `CommandExecutor`. Необработанные исключения теперь логируются и отправляют пользователю понятное сообщение; deferred-reply больше не зависает.
 - **#6** Заменены `println`/`e.printStackTrace()` на SLF4J `Logger` в `BotAudioPlayer`, `PorcupineReceiveHandler`, `CommandExecutor`, `RetrofitFactory`. В `:network` добавлена зависимость `slf4j-api`.
 - **#14** Удалён отладочный `println(event.commandId)` из `EventsHandler`.
+- **#7** В `CommandExecutor` добавлена null-проверка `guild` до запуска корутины. При вызове команды в DM пользователь получает ephemeral-ответ `"Эта команда доступна только на серверах."` вместо молчаливого NPE.

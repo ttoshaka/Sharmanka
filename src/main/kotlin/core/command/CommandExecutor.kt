@@ -31,16 +31,27 @@ class CommandExecutor(private val commandFabric: CommandFabric) {
     /**
      * Обрабатывает входящее событие slash-команды.
      *
+     * Если команда вызвана в личных сообщениях (guild == null), пользователь получает
+     * ephemeral-ответ и метод завершается без запуска корутины.
+     *
      * @param interaction событие взаимодействия со slash-командой
      */
     operator fun invoke(interaction: SlashCommandInteractionEvent) {
+        val guild = interaction.guild
+        if (guild == null) {
+            interaction.reply("Эта команда доступна только на серверах.")
+                .setEphemeral(true)
+                .complete()
+            return
+        }
+
         val optionsMap = mutableMapOf<String, String>()
         interaction.options.forEach { optionMapping ->
             optionsMap[optionMapping.name] = optionMapping.asString
         }
 
         val event = Event(
-            guild = interaction.guild!!,
+            guild = guild,
             name = interaction.name,
             member = Member(
                 voiceChannel = interaction.member?.voiceState?.channel,
