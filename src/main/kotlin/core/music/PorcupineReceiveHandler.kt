@@ -3,6 +3,7 @@ package core.core.music
 import ai.picovoice.porcupine.Porcupine
 import net.dv8tion.jda.api.audio.AudioReceiveHandler
 import net.dv8tion.jda.api.audio.UserAudio
+import org.slf4j.LoggerFactory
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -28,6 +29,10 @@ class PorcupineReceiveHandler(
 
     private var isRecording = false
     private val recordedBuffer = mutableListOf<Short>()
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(PorcupineReceiveHandler::class.java)
+    }
 
     private val silenceThreshold = 200
     private val maxSilenceMillis = 1500L  // 1.5 секунды тишины
@@ -92,7 +97,7 @@ class PorcupineReceiveHandler(
             val keywordIndex = porcupine.process(frame)
 
             if (!isRecording && keywordIndex >= 0) {
-                println("Wake word detected! Starting recording...")
+                logger.info("Wake word detected! Starting recording...")
                 isRecording = true
                 recordedBuffer.clear()
                 lastAudioTime = System.currentTimeMillis()
@@ -106,9 +111,9 @@ class PorcupineReceiveHandler(
 
                 // Если долго нет аудио (тишина), останавливаем запись
                 if (now - lastAudioTime > maxSilenceMillis) {
-                    println("Recording stopped due to silence. Saving to file...")
+                    logger.info("Recording stopped due to silence. Saving to file...")
                     saveRecordingToWav(recordedBuffer.toShortArray(), "recorded.wav")
-                    println("File saved: recorded.wav")
+                    logger.info("File saved: recorded.wav")
                     isRecording = false
                 }
             }
@@ -136,7 +141,7 @@ class PorcupineReceiveHandler(
         try {
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, File(fileName))
         } catch (e: IOException) {
-            e.printStackTrace()
+            logger.error("Failed to save recording to WAV file: $fileName", e)
         }
     }
 }

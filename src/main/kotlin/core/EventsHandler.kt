@@ -12,7 +12,6 @@ class EventsHandler(
 ) : ListenerAdapter() {
 
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent): Unit {
-        println(event.commandId)
         return slashCommandCallback(event)
     }
 

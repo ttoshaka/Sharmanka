@@ -3,6 +3,7 @@ package network.factory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.slf4j.LoggerFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -15,6 +16,8 @@ import java.util.concurrent.TimeUnit
  * Если переменная не задана или содержит неизвестное значение — используется `NONE`.
  */
 object RetrofitFactory {
+
+    private val logger = LoggerFactory.getLogger(RetrofitFactory::class.java)
 
     private const val CONNECT_TIMEOUT = 60L
     private const val READ_TIMEOUT = 60L
@@ -35,9 +38,9 @@ object RetrofitFactory {
         return try {
             enumValueOf<HttpLoggingInterceptor.Level>(raw.uppercase())
         } catch (e: IllegalArgumentException) {
-            System.err.println(
-                "[RetrofitFactory] WARNING: Unknown HTTP_LOG_LEVEL value \"$raw\". " +
-                    "Allowed: NONE, BASIC, HEADERS, BODY. Falling back to NONE."
+            logger.warn(
+                "Unknown HTTP_LOG_LEVEL value \"{}\". Allowed: NONE, BASIC, HEADERS, BODY. Falling back to NONE.",
+                raw,
             )
             HttpLoggingInterceptor.Level.NONE
         }

@@ -8,3 +8,5 @@
 - **#3** Добавлена обработка ошибок в `AiNetwork.chat()`: при HTTP 4xx/5xx бросается `NetworkException` с кодом и телом ошибки. В `AiChatCommand`, `SuggestMusicCommand`, `SuggestPlaylistCommand` добавлен `try/catch` — пользователь видит понятное сообщение вместо пустого ответа.
 - **#4** Добавлена обработка ошибок в `YoutubeNetwork.findVideo()`: при ошибке квоты или сети бросается `NetworkException`. В `BotAudioPlayer.loadTrackByKeyword()` конвертируется в `AudioScheduleResult.Error`, команды показывают пользователю понятное сообщение.
 - **#5** Добавлен `CoroutineExceptionHandler` в `CommandExecutor`. Необработанные исключения теперь логируются и отправляют пользователю понятное сообщение; deferred-reply больше не зависает.
+- **#6** Заменены `println`/`e.printStackTrace()` на SLF4J `Logger` в `BotAudioPlayer`, `PorcupineReceiveHandler`, `CommandExecutor`, `RetrofitFactory`. В `:network` добавлена зависимость `slf4j-api`.
+- **#14** Удалён отладочный `println(event.commandId)` из `EventsHandler`.

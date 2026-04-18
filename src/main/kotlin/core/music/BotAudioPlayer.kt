@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel
 import network.NetworkException
 import network.YoutubeNetwork
+import org.slf4j.LoggerFactory
 import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -40,6 +41,10 @@ class BotAudioPlayer(
         registerSourceManager(LocalAudioSourceManager(MediaContainerRegistry.DEFAULT_REGISTRY))
     }
     private val backgroundTrackPath = File("recorded.wav").absolutePath
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(BotAudioPlayer::class.java)
+    }
 
     fun connectToVoiceChannel(voiceChannel: AudioChannel, guild: Guild) {
         if (guild.audioManager.connectedChannel != voiceChannel) {
@@ -71,7 +76,7 @@ class BotAudioPlayer(
                 { track -> musicManager.setBackgroundTrack(track, loop) },
                 { /* playlist - ignore */ },
                 { /* no matches */ },
-                { exception -> println("Failed to load background track: ${exception.message}") }
+                { exception -> logger.error("Failed to load background track: ${exception.message}", exception) }
             )
         )
     }
@@ -88,7 +93,7 @@ class BotAudioPlayer(
                 { track -> musicManager.playTtsTrack(track) },
                 { /* playlist - ignore */ },
                 { /* no matches */ },
-                { exception -> println("Failed to load TTS audio: ${exception.message}") }
+                { exception -> logger.error("Failed to load TTS audio: ${exception.message}", exception) }
             )
         )
     }

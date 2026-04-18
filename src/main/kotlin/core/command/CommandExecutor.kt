@@ -3,6 +3,7 @@ package core.command
 import core.models.Event
 import core.models.Member
 import kotlinx.coroutines.CoroutineExceptionHandler
+import org.slf4j.LoggerFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -22,6 +23,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 class CommandExecutor(private val commandFabric: CommandFabric) {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(CommandExecutor::class.java)
+    }
 
     /**
      * Обрабатывает входящее событие slash-команды.
@@ -74,8 +79,7 @@ class CommandExecutor(private val commandFabric: CommandFabric) {
         interaction: SlashCommandInteractionEvent,
         isLongCommand: Boolean,
     ): CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        System.err.println("[CommandExecutor] Необработанное исключение в команде '${interaction.name}': $throwable")
-        throwable.printStackTrace()
+        logger.error("Необработанное исключение в команде '${interaction.name}'", throwable)
 
         val errorMessage = "Произошла ошибка при выполнении команды. Попробуйте ещё раз."
         if (isLongCommand) {
