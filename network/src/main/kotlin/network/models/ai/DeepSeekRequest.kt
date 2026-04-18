@@ -9,6 +9,7 @@ data class DeepSeekRequest(
     val model: String,
     @SerializedName("frequency_penalty")
     val frequencyPenalty: Int = 0,
+    @SerializedName("max_tokens")
     val maxTokens: Int = 4096,
     @SerializedName("presence_penalty")
     val presencePenalty: Int = 0,
