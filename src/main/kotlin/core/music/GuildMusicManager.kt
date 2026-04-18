@@ -24,6 +24,7 @@ class GuildMusicManager(
 
     private var backgroundTrack: AudioTrack? = null
     private var loopBackground: Boolean = false
+    private var backgroundTrackActive: Boolean = false
     private val ttsQueue = LinkedBlockingQueue<AudioTrack>()
 
     init {
@@ -31,20 +32,35 @@ class GuildMusicManager(
         backgroundPlayer.addListener(BackgroundTrackHandler())
     }
 
+    /**
+     * Устанавливает фоновый трек и начинает его воспроизведение.
+     *
+     * @param track аудиотрек для воспроизведения в фоне
+     * @param loop флаг повторного воспроизведения трека
+     */
     fun setBackgroundTrack(track: AudioTrack, loop: Boolean) {
         backgroundTrack = track
         loopBackground = loop
+        backgroundTrackActive = true
         backgroundPlayer.playTrack(track.makeClone())
     }
 
+    /**
+     * Останавливает воспроизведение фонового трека и сбрасывает связанное состояние.
+     */
     fun stopBackgroundTrack() {
         backgroundTrack = null
         loopBackground = false
+        backgroundTrackActive = false
         backgroundPlayer.stopTrack()
     }
 
+    /**
+     * Возвращает `true`, если в данный момент воспроизводится именно фоновый трек,
+     * а не TTS-аудио.
+     */
     fun isBackgroundPlaying(): Boolean =
-        backgroundPlayer.playingTrack != null
+        backgroundTrackActive && backgroundPlayer.playingTrack != null
 
     fun playTtsTrack(track: AudioTrack) {
         if (backgroundPlayer.playingTrack == null) {
