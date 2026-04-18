@@ -119,9 +119,8 @@ class SuggestPlaylistCommand(
             .lines()
             .map { it.trim() }
             .filter { it.isNotBlank() }
-            .mapNotNull { line ->
-                numberedLine.find(line)?.groupValues?.get(1)?.trim()?.takeIf { it.isNotBlank() }
-            }
+            .map { line -> numberedLine.find(line)?.groupValues?.get(1)?.trim() ?: line }
+            .filter { it.isNotBlank() }
             .take(count)
     }
 }
