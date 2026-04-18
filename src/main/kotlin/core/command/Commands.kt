@@ -149,6 +149,12 @@ enum class Commands(val info: CommandInfo) {
                 )
             )
         )
+    ),
+    DRAGULA(
+        CommandInfo(
+            name = "dragula",
+            description = "Connect to voice channel and play Rob Zombie — Dragula"
+        )
     )
 }
 

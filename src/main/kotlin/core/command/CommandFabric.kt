@@ -44,6 +44,7 @@ class CommandFabric(
             Commands.BACKGROUND -> BackgroundCommand(botAudioPlayer)
             Commands.SUGGEST_MUSIC -> SuggestMusicCommand(aiNetwork, botAudioPlayer)
             Commands.SUGGEST_PLAYLIST -> SuggestPlaylistCommand(aiNetwork, botAudioPlayer)
+            Commands.DRAGULA -> DragulaCommand(botAudioPlayer)
             null -> SendMessageCommand("Command name is null")
         }
 }
