@@ -29,6 +29,8 @@ class AiChatCommand(
             return Reply.Text("Ошибка при обращении к AI: ${e.message}")
         }
 
+        if (answer.isBlank()) return Reply.Text("AI вернул пустой ответ. Попробуйте ещё раз.")
+
         val audioBytes = ttsNetwork.synthesize(answer)
         if (audioBytes != null) {
             botAudioPlayer.playTtsAudio(event.guild, audioBytes)
