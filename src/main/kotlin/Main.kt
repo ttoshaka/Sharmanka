@@ -9,7 +9,6 @@ import moe.kyokobot.libdave.jda.LDJDADaveSessionFactory
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.audio.AudioModuleConfig
-import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData
 import network.AiNetwork
@@ -62,10 +61,10 @@ fun initCommands(jda: JDA) {
         )
         command.info.options?.forEach { option ->
             slashCommand.addOption(
-                OptionType.STRING,
+                option.type,
                 option.name,
                 option.description,
-                true
+                option.required,
             )
         }
         commandsList.add(slashCommand)

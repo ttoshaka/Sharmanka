@@ -17,9 +17,9 @@ class SuggestPlaylistCommand(
     override suspend fun invoke(event: Event): Reply {
         val userRequest = event.options["request"] ?: return Reply.Text("Пустой запрос.")
 
-        // Получаем количество песен из опции (по умолчанию 5, максимум 20)
-        val countStr = event.options["count"] ?: "5"
-        val count = countStr.toIntOrNull()?.coerceIn(1, 20) ?: 5
+        // Получаем количество песен из опции (по умолчанию 5, максимум 20).
+        // Опция зарегистрирована как OptionType.INTEGER — Discord гарантирует числовое значение.
+        val count = event.options["count"]?.toInt()?.coerceIn(1, 20) ?: 5
 
         // Отправляем запрос в Deepseek с промптом для подбора песен
         val prompt = buildPrompt(userRequest, count)

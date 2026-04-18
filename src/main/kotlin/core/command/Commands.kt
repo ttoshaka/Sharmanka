@@ -1,5 +1,7 @@
 package core.command
 
+import net.dv8tion.jda.api.interactions.commands.OptionType
+
 enum class Commands(val info: CommandInfo) {
 
     CONNECT(
@@ -145,7 +147,9 @@ enum class Commands(val info: CommandInfo) {
                 ),
                 CommandInfo.Option(
                     name = "count",
-                    description = "Number of songs (1-20, default: 5)"
+                    description = "Number of songs (1-20, default: 5)",
+                    type = OptionType.INTEGER,
+                    required = false,
                 )
             )
         )
@@ -155,10 +159,20 @@ enum class Commands(val info: CommandInfo) {
 data class CommandInfo(
     val name: String,
     val description: String,
-    val options: List<Option>? = null
+    val options: List<Option>? = null,
 ) {
+    /**
+     * Описание опции slash-команды.
+     *
+     * @property name имя опции
+     * @property description описание опции, отображаемое в Discord
+     * @property type тип опции Discord; по умолчанию [OptionType.STRING]
+     * @property required обязательна ли опция; по умолчанию `true`
+     */
     data class Option(
         val name: String,
-        val description: String
+        val description: String,
+        val type: OptionType = OptionType.STRING,
+        val required: Boolean = true,
     )
 }
