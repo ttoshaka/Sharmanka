@@ -15,6 +15,18 @@ import javax.sound.sampled.AudioSystem
 import kotlin.math.abs
 import kotlin.system.measureTimeMillis
 
+/**
+ * Обработчик входящего аудио от пользователей Discord-канала.
+ *
+ * Детектирует wake-слово "OK Google" через Porcupine, после чего записывает аудио
+ * до наступления тишины длительностью [maxSilenceMillis] мс и сохраняет результат в WAV-файл.
+ *
+ * Все операции с разделяемыми буферами ([monoBuffer], [recordedBuffer]) защищены
+ * блоком `synchronized(this)`, так как JDA вызывает [handleUserAudio] из нескольких
+ * потоков одновременно — по одному на каждого говорящего пользователя.
+ *
+ * @property accessKey ключ доступа Picovoice для инициализации Porcupine
+ */
 class PorcupineReceiveHandler(
     accessKey: String
 ) : AudioReceiveHandler {
@@ -44,12 +56,22 @@ class PorcupineReceiveHandler(
     override fun handleUserAudio(userAudio: UserAudio) {
         val data = userAudio.getAudioData(1.0)
         val resampled = convertStereo48kToMono16k(data)
-        monoBuffer.addAll(resampled.toList())
-        processBuffer()
-        lastAudioTime = System.currentTimeMillis() // обновляем время последнего аудио
+        synchronized(this) {
+            monoBuffer.addAll(resampled.toList())
+            processBuffer()
+            lastAudioTime = System.currentTimeMillis()
+        }
     }
 
 
+    /**
+     * Конвертирует стерео PCM 48 кГц (big-endian) в моно PCM 16 кГц простым децимированием.
+     *
+     * Берёт только левый канал и применяет фактор децимации 3 (48k / 3 = 16k).
+     *
+     * @param input сырые байты аудио в формате Discord (48 кГц, стерео, 16 бит, big-endian)
+     * @return массив отсчётов PCM 16 кГц моно
+     */
     fun downsampleStereo48kToMono16k(input: ByteArray): ShortArray {
         val inputShorts = ShortArray(input.size / 2)
         // Discord: big endian
@@ -66,6 +88,15 @@ class PorcupineReceiveHandler(
         }
         return result
     }
+    /**
+     * Конвертирует стерео PCM 48 кГц в моно PCM 16 кГц через ресемплирование Java Audio API (TarsosDSP).
+     *
+     * В отличие от [downsampleStereo48kToMono16k], использует правильный ресемплер, что даёт
+     * корректное качество звука для Porcupine.
+     *
+     * @param input сырые байты аудио в формате Discord (48 кГц, стерео, 16 бит, big-endian)
+     * @return массив отсчётов PCM 16 кГц моно (little-endian)
+     */
     fun convertStereo48kToMono16k(input: ByteArray): ShortArray {
         val sourceFormat = AudioFormat(48000f, 16, 2, true, true)
         val sourceStream = AudioInputStream(

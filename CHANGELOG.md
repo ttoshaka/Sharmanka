@@ -12,3 +12,4 @@
 - **#14** Удалён отладочный `println(event.commandId)` из `EventsHandler`.
 - **#7** В `CommandExecutor` добавлена null-проверка `guild` до запуска корутины. При вызове команды в DM пользователь получает ephemeral-ответ `"Эта команда доступна только на серверах."` вместо молчаливого NPE.
 - **#8** В `BotAudioPlayer` заменён `HashMap` на `ConcurrentHashMap` с `computeIfAbsent`. Ключ сменён с `String` на `Long` (`guild.idLong`). Атомарное создание `GuildMusicManager` исключает гонку потоков.
+- **#9** В `PorcupineReceiveHandler` добавлена синхронизация `synchronized(this)` вокруг составных операций с `monoBuffer`. Устранена гонка данных при одновременном аудио от нескольких пользователей.
