@@ -7,6 +7,14 @@ import music.TrackOrder
 import network.AiNetwork
 import network.TtsNetwork
 
+/**
+ * Фабрика команд: создаёт конкретный экземпляр [Command] по имени slash-команды.
+ *
+ * @property botAudioPlayer плеер для передачи в аудио-команды
+ * @property aiNetwork клиент AI для передачи в AI-команды
+ * @property ttsNetwork клиент TTS для передачи в команды с синтезом речи
+ * @property embedFactory фабрика embed-сообщений для передачи в команды с UI
+ */
 class CommandFabric(
     private val botAudioPlayer: BotAudioPlayer,
     private val aiNetwork: AiNetwork,
@@ -14,6 +22,12 @@ class CommandFabric(
     private val embedFactory: EmbedFactory = EmbedFactoryImpl(),
 ) {
 
+    /**
+     * Создаёт экземпляр команды по её имени.
+     *
+     * @param commandName идентификатор команды из enum [Commands], или `null` если имя не распознано
+     * @return готовый к выполнению экземпляр [Command]
+     */
     fun createCommand(commandName: Commands?): Command =
         when (commandName) {
             Commands.CONNECT -> ConnectVoiceChannelCommand(botAudioPlayer)

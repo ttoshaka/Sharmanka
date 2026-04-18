@@ -16,6 +16,7 @@ class NowPlayingCommand(
     private val embedFactory: EmbedFactory,
 ) : Command() {
 
+    /** Выполняет команду и возвращает ответ пользователю. */
     override suspend fun invoke(event: Event): Reply {
         val currentTrack = botAudioPlayer.getCurrentTrack(event.guild)
         return if (currentTrack != null) {

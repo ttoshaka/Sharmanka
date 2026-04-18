@@ -20,6 +20,7 @@ class AiChatCommand(
     private val botAudioPlayer: BotAudioPlayer,
 ) : Command(true) {
 
+    /** Выполняет команду и возвращает ответ пользователю. */
     override suspend fun invoke(event: Event): Reply {
         val message = event.options["message"] ?: return Reply.Text("Сообщение не может быть пустым.")
 

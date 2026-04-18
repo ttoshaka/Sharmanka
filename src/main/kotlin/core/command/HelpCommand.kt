@@ -13,6 +13,7 @@ class HelpCommand(
     private val embedFactory: EmbedFactory,
 ) : Command() {
 
+    /** Выполняет команду и возвращает ответ пользователю. */
     override suspend fun invoke(event: Event): Reply =
         Reply.Embed(embedFactory.buildHelpEmbed())
 }

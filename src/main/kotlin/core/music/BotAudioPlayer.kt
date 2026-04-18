@@ -25,6 +25,13 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * Центральный аудиоплеер бота: управляет подключением к голосовым каналам,
+ * очередями треков и фоновым воспроизведением для каждого сервера (guild).
+ *
+ * @property youtubeNetwork клиент для поиска видео на YouTube по ключевому слову
+ * @property porcupineKey API-ключ Porcupine для wake-word обнаружения
+ */
 class BotAudioPlayer(
     private val youtubeNetwork: YoutubeNetwork,
     private val porcupineKey: String,
@@ -47,6 +54,12 @@ class BotAudioPlayer(
         private val logger = LoggerFactory.getLogger(BotAudioPlayer::class.java)
     }
 
+    /**
+     * Подключает бота к голосовому каналу, если он ещё не подключён.
+     *
+     * @param voiceChannel целевой голосовой канал
+     * @param guild сервер Discord, к которому принадлежит канал
+     */
     fun connectToVoiceChannel(voiceChannel: AudioChannel, guild: Guild) {
         if (guild.audioManager.connectedChannel != voiceChannel) {
             val musicManager = getMusicManager(guild)
@@ -56,6 +69,13 @@ class BotAudioPlayer(
         }
     }
 
+    /**
+     * Переключает фоновый трек: запускает, если не играет, и останавливает, если играет.
+     *
+     * @param guild сервер Discord
+     * @param loop если `true`, трек будет зациклен
+     * @return `true` если трек был запущен, `false` если остановлен
+     */
     fun toggleBackgroundTrack(guild: Guild, loop: Boolean): Boolean {
         val musicManager = getMusicManager(guild)
         return if (musicManager.isBackgroundPlaying()) {
@@ -67,6 +87,11 @@ class BotAudioPlayer(
         }
     }
 
+    /**
+     * Возвращает `true`, если фоновый трек сейчас воспроизводится на указанном сервере.
+     *
+     * @param guild сервер Discord
+     */
     fun isBackgroundPlaying(guild: Guild): Boolean =
         getMusicManager(guild).isBackgroundPlaying()
 
@@ -82,6 +107,12 @@ class BotAudioPlayer(
         )
     }
 
+    /**
+     * Воспроизводит TTS-аудио в голосовом канале сервера.
+     *
+     * @param guild сервер Discord
+     * @param audioBytes байты WAV-файла для воспроизведения
+     */
     fun playTtsAudio(guild: Guild, audioBytes: ByteArray) {
         val musicManager = getMusicManager(guild)
         val tempFile = File.createTempFile("tts_", ".wav")
@@ -99,35 +130,82 @@ class BotAudioPlayer(
         )
     }
 
+    /**
+     * Пропускает текущий трек и начинает воспроизведение следующего из очереди.
+     *
+     * @param guild сервер Discord
+     */
     fun skipTrack(guild: Guild) {
         getMusicManager(guild).scheduler.skipTrack()
     }
 
+    /**
+     * Возвращает текущую очередь треков для указанного сервера.
+     *
+     * @param guild сервер Discord
+     */
     fun getQueue(guild: Guild): List<AudioTrack> =
         getMusicManager(guild).scheduler.getQueue()
 
+    /**
+     * Возвращает текущий воспроизводимый трек или `null`, если ничего не играет.
+     *
+     * @param guild сервер Discord
+     */
     fun getCurrentTrack(guild: Guild): AudioTrack? =
         getMusicManager(guild).scheduler.currentTrack
 
+    /**
+     * Ставит воспроизведение на паузу для указанного сервера.
+     *
+     * @param guild сервер Discord
+     */
     fun pausePlayer(guild: Guild) {
         changePlayingState(guild, true)
     }
 
+    /**
+     * Возобновляет приостановленное воспроизведение для указанного сервера.
+     *
+     * @param guild сервер Discord
+     */
     fun resumePlayer(guild: Guild) {
         changePlayingState(guild, false)
     }
 
+    /**
+     * Перемешивает очередь треков в случайном порядке для указанного сервера.
+     *
+     * @param guild сервер Discord
+     */
     fun shuffle(guild: Guild) {
         getMusicManager(guild).scheduler.shuffle()
     }
 
+    /**
+     * Возвращает суммарную длительность очереди в виде отформатированной строки.
+     *
+     * @param guild сервер Discord
+     */
     fun getPlaylistLength(guild: Guild): String =
         getMusicManager(guild).scheduler.getLength()
 
+    /**
+     * Очищает очередь треков для указанного сервера.
+     *
+     * @param guild сервер Discord
+     */
     fun clearQueue(guild: Guild) {
         getMusicManager(guild).scheduler.clear()
     }
 
+    /**
+     * Загружает и ставит в очередь трек по URL или ключевому слову.
+     *
+     * @param text URL или поисковый запрос
+     * @param parameters параметры загрузки (guild, порядок вставки в очередь)
+     * @return результат загрузки трека
+     */
     suspend fun loadMusic(text: String, parameters: MusicForPlayingParameters): AudioScheduleResult =
         if (UrlValidator.isValidUrl(text)) {
             loadTrackByUrl(text, parameters)

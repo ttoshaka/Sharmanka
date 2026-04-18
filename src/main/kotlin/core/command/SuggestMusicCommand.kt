@@ -8,11 +8,18 @@ import music.TrackOrder
 import network.AiNetwork
 import network.NetworkException
 
+/**
+ * Команда подбора и воспроизведения одной песни по запросу пользователя через AI.
+ *
+ * @property aiNetwork клиент для обращений к DeepSeek AI
+ * @property botAudioPlayer плеер для загрузки и воспроизведения трека в Discord
+ */
 class SuggestMusicCommand(
     private val aiNetwork: AiNetwork,
     private val botAudioPlayer: BotAudioPlayer,
 ) : Command(true) {
 
+    /** Выполняет команду и возвращает ответ пользователю. */
     override suspend fun invoke(event: Event): Reply {
         val userRequest = event.options["request"] ?: return Reply.Text("Пустой запрос.")
 

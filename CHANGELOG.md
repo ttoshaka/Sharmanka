@@ -45,4 +45,7 @@
 - **#28** Из `gradle.properties` удалены неиспользуемые и устаревшие версии зависимостей.
 - **#29** `kotlinx-coroutines-core` в `:network` обновлён с `1.8.0-RC` до стабильной `1.8.1`.
 - **#30** Удалена неиспользуемая зависимость `jackson-module-kotlin` из `:network` — весь слой использует Gson.
-- **#31** Удалены неиспользуемые зависимости `be.tarsos.dsp:core` и `be.tarsos.dsp:jvm` и их Maven-репозиторий. Ресемплинг работает через `javax.sound.sampled.AudioSystem`. Оставлена только настройка `kotlin.code.style`.
+- **#31** Удалены неиспользуемые зависимости `be.tarsos.dsp:core` и `be.tarsos.dsp:jvm`.
+
+### Документация
+- **#32** Добавлен KDoc ко всем `public`/`protected` методам и свойствам: все Command-классы (17 файлов), `BotAudioPlayer`, `TrackScheduler`, `TtsNetwork`, `CommandFabric`. и их Maven-репозиторий. Ресемплинг работает через `javax.sound.sampled.AudioSystem`. Оставлена только настройка `kotlin.code.style`.

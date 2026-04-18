@@ -17,6 +17,7 @@ class PlayMusicCommand(
     private val order: TrackOrder,
 ) : Command(true) {
 
+    /** Выполняет команду и возвращает ответ пользователю. */
     override suspend fun invoke(event: Event): Reply {
         val source = event.options.get("source") ?: return Reply.Text("Источник не указан.")
         val result = botAudioPlayer.loadMusic(

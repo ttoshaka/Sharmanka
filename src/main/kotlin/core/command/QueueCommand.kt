@@ -16,6 +16,7 @@ class QueueCommand(
     private val embedFactory: EmbedFactory,
 ) : Command() {
 
+    /** Выполняет команду и возвращает ответ пользователю. */
     override suspend fun invoke(event: Event): Reply {
         val currentTrack = botAudioPlayer.getCurrentTrack(event.guild)
         val queue = botAudioPlayer.getQueue(event.guild)
