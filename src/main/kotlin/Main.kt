@@ -16,12 +16,20 @@ import network.AiNetwork
 import network.YoutubeNetwork
 
 
+/**
+ * Читает переменную окружения по имени.
+ * Бросает [IllegalStateException] с понятным сообщением, если переменная не задана.
+ */
+fun requireEnv(name: String): String =
+    System.getenv(name)
+        ?: error("Required environment variable '$name' is not set. Please define it before starting the bot.")
+
 fun main(args: Array<String>) {
 
-    val discordToken = ""
-    val youtubeKey = ""
-    val deepseekKey = ""
-    val porcupineKey = ""
+    val discordToken = requireEnv("DISCORD_TOKEN")
+    val youtubeKey = requireEnv("YOUTUBE_KEY")
+    val deepseekKey = requireEnv("DEEPSEEK_KEY")
+    val porcupineKey = requireEnv("PORCUPINE_KEY")
 
     val daveFactory: DaveFactory = NativeDaveFactory()
     val daveSessionFactory = LDJDADaveSessionFactory(daveFactory)
